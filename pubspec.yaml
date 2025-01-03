@@ -1,0 +1,21 @@
+name: ity_customized_keyboard
+description: Easily create and integrate custom keyboards in Flutter. Perfect for creating unique input experiences like numeric keypads, emoji keyboards, or specialized layouts.
+version: 1.0.9
+homepage: https://github.com/ityhoang/
+repository: https://github.com/ityhoang/ity_customized_keyboard/
+
+environment:
+  sdk: '>=2.18.6 <4.0.0'
+  flutter: ">=3.16.1"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  intl: any
+  math_expressions: ^2.6.0
+  ulid: ^2.0.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.1

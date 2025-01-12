@@ -2,24 +2,22 @@ part of '../ity_customized_keyboard.dart';
 
 class KeyboardWrapper extends StatefulWidget {
   const KeyboardWrapper({
+    required this.context,
     required this.child,
     super.key,
     this.heightBottomNavigationBar = 0,
-    this.isBottomSheetOrDialog = false,
     this.hasPaddingKeyboard = true,
     this.removePaddingSafe = false,
-    this.removeViewInsetsBottom = false,
     this.width,
     this.keyboards = const [],
     this.shouldShow,
   });
 
+  final BuildContext context;
   final Widget child;
   final double heightBottomNavigationBar;
-  final bool isBottomSheetOrDialog;
   final bool hasPaddingKeyboard;
   final bool removePaddingSafe;
-  final bool removeViewInsetsBottom;
   final double? width;
   final List<CustomKeyboard> keyboards;
 
@@ -43,7 +41,6 @@ class KeyboardWrapperState extends State<KeyboardWrapper>
     with SingleTickerProviderStateMixin {
   /// Holds the active connection to a [CustomTextField]
   CustomKeyboardConnection? _keyboardConnection;
-
   late final AnimationController _animationController;
   late Animation<Offset> _animationPosition;
   double _bottomInset = 0;
@@ -52,9 +49,17 @@ class KeyboardWrapperState extends State<KeyboardWrapper>
   final _resizeHeightKeyBoard = ValueNotifier<double>(0);
   var _backgroundKeyboard = Colors.transparent;
   CustomKeyboardManager get manager => CustomKeyboardManager();
+  bool get _isBottomSheet =>
+      ModalRoute.of(widget.context) is ModalBottomSheetRoute;
+  bool get _isDialog => ModalRoute.of(widget.context) is DialogRoute;
+  bool _hasPaddingKeyboard = true;
+  bool _removeViewInsetsBottom = false;
 
   @override
   void initState() {
+    _hasPaddingKeyboard =
+        (_isBottomSheet || _isDialog) ? true : widget.hasPaddingKeyboard;
+    _removeViewInsetsBottom = !(_isBottomSheet || _isDialog);
     _animationController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 200),
@@ -79,6 +84,19 @@ class KeyboardWrapperState extends State<KeyboardWrapper>
   }
 
   @override
+  void didUpdateWidget(covariant KeyboardWrapper oldWidget) {
+    _hasPaddingKeyboard =
+        (_isBottomSheet || _isDialog) ? true : widget.hasPaddingKeyboard;
+    _removeViewInsetsBottom = !(_isBottomSheet || _isDialog);
+    super.didUpdateWidget(oldWidget);
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+  }
+
+  @override
   void dispose() {
     _animationController.dispose();
     _resizeHeightKeyBoard.dispose();
@@ -88,12 +106,11 @@ class KeyboardWrapperState extends State<KeyboardWrapper>
   @override
   Widget build(BuildContext context) {
     final data = MediaQuery.of(context);
-
     return RepaintBoundary(
       child: MediaQuery(
         data: _activeKeyboard != null
             ? data.copyWith(
-                viewInsets: widget.removeViewInsetsBottom
+                viewInsets: _removeViewInsetsBottom
                     ? null
                     : data.viewInsets.copyWith(
                         bottom: _bottomInset +
@@ -103,10 +120,12 @@ class KeyboardWrapperState extends State<KeyboardWrapper>
             : data,
         child: Stack(
           children: [
-            if (widget.isBottomSheetOrDialog)
-              _buildPaddingForDialogOrSheet()
+            if (_isBottomSheet)
+              _buildBottomSheet()
+            else if (_isDialog)
+              _buildDialog()
             else
-              _buildPositionedForNormal(),
+              _buildNormal(),
             if (_activeKeyboard != null) _buildCustomKeyboard(),
           ],
         ),
@@ -114,33 +133,50 @@ class KeyboardWrapperState extends State<KeyboardWrapper>
     );
   }
 
-  Widget _buildPaddingForDialogOrSheet() {
+  Widget _buildBottomSheet() {
     return ValueListenableBuilder<double>(
       valueListenable: _resizeHeightKeyBoard,
+      child: widget.child,
       builder: (context, height, child) {
         return Padding(
           padding: EdgeInsets.only(
-              bottom: widget.hasPaddingKeyboard
+              bottom: _hasPaddingKeyboard
                   ? (max(0, height - max(0, widget.heightBottomNavigationBar)))
                   : 0),
-          child: widget.child,
+          child: child,
         );
       },
     );
   }
 
-  Widget _buildPositionedForNormal() {
+  Widget _buildDialog() {
     return Positioned.fill(
       child: ValueListenableBuilder<double>(
         valueListenable: _resizeHeightKeyBoard,
+        child: widget.child,
+        builder: (context, height, child) {
+          return Padding(
+            padding: const EdgeInsets.only(bottom: 0),
+            child: child,
+          );
+        },
+      ),
+    );
+  }
+
+  Widget _buildNormal() {
+    return Positioned.fill(
+      child: ValueListenableBuilder<double>(
+        valueListenable: _resizeHeightKeyBoard,
+        child: widget.child,
         builder: (context, height, child) {
           return Padding(
             padding: EdgeInsets.only(
-                bottom: widget.hasPaddingKeyboard
+                bottom: _hasPaddingKeyboard
                     ? (max(
                         0, height - max(0, widget.heightBottomNavigationBar)))
                     : 0),
-            child: widget.child,
+            child: child,
           );
         },
       ),
@@ -240,7 +276,7 @@ class KeyboardWrapperState extends State<KeyboardWrapper>
               Scrollable.ensureVisible(fieldContext, alignment: 0.1);
               break;
             case VisibilityState.hiddenBelow:
-              Scrollable.ensureVisible(fieldContext, alignment: 0.9);
+              Scrollable.ensureVisible(fieldContext, alignment: 0.96);
               break;
             case VisibilityState.visible:
               break;

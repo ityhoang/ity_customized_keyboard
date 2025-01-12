@@ -1,3 +1,8 @@
+## 1.0.10
+
+* update check bottomSheet, dialog and normal.
+* update README.
+
 ## 1.0.9
 
 * remove code base CustomTextField.

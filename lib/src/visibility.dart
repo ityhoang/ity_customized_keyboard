@@ -29,7 +29,7 @@ VisibilityState isItemVisible(BuildContext context) {
   final offsetToRevealTop =
       itemViewport.getOffsetToReveal(renderObject, 0).offset;
   final offsetToRevealBottom =
-      itemViewport.getOffsetToReveal(renderObject, 1).offset;
+      itemViewport.getOffsetToReveal(renderObject, 0.96).offset;
 
   // Is it hidden above?
   if (scrollOffset > offsetToRevealTop) {

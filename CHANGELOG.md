@@ -1,3 +1,26 @@
+## 1.0.14
+
+* remove keyboard system reopen.
+
+## 1.0.13
+
+* update KeyboardWrapper.
+* update README.
+
+## 1.0.12
+
+* remove cursor selection.
+
+## 1.0.11
+
+* update requestFocus handles re-displaying the keyboard.
+* update README.
+
+## 1.0.10
+
+* update check bottomSheet, dialog and normal.
+* update README.
+
 ## 1.0.9
 
 * remove code base CustomTextField.

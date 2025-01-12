@@ -10,4 +10,16 @@ class CustomKeyboardManager {
   bool _isKeyboardOpen = false;
 
   bool get isKeyboardOpen => _isKeyboardOpen;
+
+  void openKeyboard() {
+    if (!_isKeyboardOpen) {
+      _isKeyboardOpen = true;
+    }
+  }
+
+  void closeKeyboard() {
+    if (_isKeyboardOpen) {
+      _isKeyboardOpen = false;
+    }
+  }
 }

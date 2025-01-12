@@ -13,12 +13,15 @@ Empowers you to design personalized keyboards tailored to your preferences and s
   are included for smooth navigation.
 
 ## 🚀 Getting Started
+> [!NOTE]  
+> To ensure the library functions at its best, we highly recommend using the provided **CustomTextField**, **CustomTextFormField**.
+> This widget has been optimized for seamless integration with your customized keyboard, minimizing potential issues and ensuring high performance.
 
 1. Add the package to your `pubspec.yaml`:
 
    ```yaml
    dependencies:
-     ity_customized_keyboard: ^1.0.9
+     ity_customized_keyboard: ^latest_version
    ```
 2. Craft Your Custom Keyboard
 
@@ -78,17 +81,10 @@ Empowers you to design personalized keyboards tailored to your preferences and s
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return KeyboardWrapper(
-          hasPaddingKeyboard: false,
+        return KeyboardWrapper.dialog(
           keyboards: [keyboardMomo],
-          child: Stack(
-            children: [
-              Positioned.fill(
-                child: Dialog(
-                  // Your code here
-                ),
-              ),
-            ],
+          child: Dialog(
+            // Your code here
           ),
         );
       },
@@ -105,8 +101,7 @@ Empowers you to design personalized keyboards tailored to your preferences and s
     showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {
-        return KeyboardWrapper(
-          isBottomSheetOrDialog: true,
+        return KeyboardWrapper.bottomSheet(
           keyboards: [keyboardMomo],
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -128,7 +123,6 @@ Empowers you to design personalized keyboards tailored to your preferences and s
     import 'package:ity_customized_keyboard/ity_customized_keyboard.dart';
 
     KeyboardWrapper(
-      removeViewInsetsBottom: true,
       keyboards: [keyboardMomo],
       child: Scaffold(
         // Your code here
@@ -145,7 +139,6 @@ Empowers you to design personalized keyboards tailored to your preferences and s
     import 'package:ity_customized_keyboard/ity_customized_keyboard.dart';
 
     KeyboardWrapper(
-      removeViewInsetsBottom: true,
       //remove height bottomNavigationBar
       heightBottomNavigationBar: kBottomNavigationBarHeight - 10,
       keyboards: [keyboardMomo],

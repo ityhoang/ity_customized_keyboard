@@ -789,12 +789,20 @@ class _CustomTextFieldState extends State<CustomTextField>
       if (_effectiveFocusNode.hasFocus) {
         final editableTextState = _effectiveFocusNode.context
             ?.findAncestorStateOfType<EditableTextState>();
+        editableTextState?.hideToolbar();
         editableTextState?.bringIntoView(_effectiveController.selection.base);
       }
     });
   }
 
   void _handleFocusChange() {
+    if (!_isCustomKeyboard) {
+      Future.delayed(const Duration(milliseconds: 300), () {
+        if (!_isCustomKeyboard && _effectiveFocusNode.hasFocus) {
+          SystemChannels.textInput.invokeMethod('TextInput.show');
+        }
+      });
+    }
     if (_isCustomKeyboard && _effectiveFocusNode.hasFocus) {
       if (!_keyboardWrapper.manager.isKeyboardOpen) {
         Future.delayed(const Duration(milliseconds: 100), () {

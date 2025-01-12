@@ -28,7 +28,6 @@ class _MyHomePageState extends State<MyHomePage> {
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: KeyboardWrapper(
-        removeViewInsetsBottom: true,
         keyboards: [keyboardMomo],
         child: Scaffold(
           appBar: AppBar(title: const Text('ity_customized_keyboard')),
@@ -53,8 +52,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           await showModalBottomSheet(
                             context: context,
                             builder: (context) {
-                              return KeyboardWrapper(
-                                isBottomSheetOrDialog: true,
+                              return KeyboardWrapper.bottomSheet(
                                 keyboards: [keyboardMomo],
                                 child: Column(
                                   mainAxisSize: MainAxisSize.min,
@@ -81,34 +79,24 @@ class _MyHomePageState extends State<MyHomePage> {
                           showDialog(
                             context: context,
                             builder: (context) {
-                              return KeyboardWrapper(
-                                hasPaddingKeyboard: false,
+                              return KeyboardWrapper.dialog(
                                 keyboards: [keyboardMomo],
-                                child: Stack(
-                                  children: [
-                                    Positioned.fill(
-                                      child: Dialog(
-                                        child: ClipRRect(
-                                          borderRadius:
-                                              BorderRadius.circular(16),
-                                          child: Column(
-                                            mainAxisSize: MainAxisSize.min,
-                                            children: [
-                                              const TextField(),
-                                              CustomTextField(
-                                                autofocus: true,
-                                                keyboardType:
-                                                    keyboardMomo.inputType,
-                                                onSubmitted: (value) =>
-                                                    FocusScope.of(context)
-                                                        .unfocus(),
-                                              ),
-                                            ],
-                                          ),
+                                child: Dialog(
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(16),
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        const CustomTextField(),
+                                        CustomTextField(
+                                          autofocus: true,
+                                          keyboardType: keyboardMomo.inputType,
+                                          onSubmitted: (value) =>
+                                              FocusScope.of(context).unfocus(),
                                         ),
-                                      ),
+                                      ],
                                     ),
-                                  ],
+                                  ),
                                 ),
                               );
                             },
@@ -119,16 +107,16 @@ class _MyHomePageState extends State<MyHomePage> {
                     ),
                   ],
                 ),
-                const TextField(),
-                const TextField(),
-                const TextField(),
-                const TextField(),
-                const TextField(),
-                const TextField(),
-                const TextField(),
-                const TextField(),
-                const TextField(),
-                const TextField(keyboardType: TextInputType.datetime),
+                const CustomTextField(),
+                const CustomTextField(),
+                const CustomTextField(),
+                const CustomTextField(),
+                const CustomTextField(),
+                const CustomTextField(),
+                const CustomTextField(),
+                const CustomTextField(),
+                const CustomTextField(),
+                const CustomTextField(keyboardType: TextInputType.datetime),
                 CustomTextField(
                   keyboardType: keyboardMomo.inputType,
                   onSubmitted: (value) => FocusScope.of(context).unfocus(),

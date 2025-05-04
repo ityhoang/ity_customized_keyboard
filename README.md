@@ -13,9 +13,6 @@ Empowers you to design personalized keyboards tailored to your preferences and s
   are included for smooth navigation.
 
 ## 🚀 Getting Started
-> [!NOTE]  
-> To ensure the library functions at its best, we highly recommend using the provided **CustomTextField**, **CustomTextFormField**.
-> This widget has been optimized for seamless integration with your customized keyboard, minimizing potential issues and ensuring high performance.
 
 1. Add the package to your `pubspec.yaml`:
 

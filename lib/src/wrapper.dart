@@ -364,7 +364,7 @@ class KeyboardWrapperState extends State<KeyboardWrapper>
         last = userInputFC.substring(userInputFC.length - 1);
       }
       try {
-        final p = Parser();
+        final p = ShuntingYardParser();
         final exp = p.parse(userInputFC);
         final ctx = ContextModel();
         final eval = exp.evaluate(EvaluationType.REAL, ctx);

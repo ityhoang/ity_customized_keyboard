@@ -903,7 +903,7 @@ class _CustomTextFieldState extends State<CustomTextField>
         autofillHints: widget.autofillHints,
         clipBehavior: widget.clipBehavior,
         restorationId: widget.restorationId,
-        scribbleEnabled: widget.scribbleEnabled,
+        stylusHandwritingEnabled: widget.scribbleEnabled,
         enableIMEPersonalizedLearning: widget.enableIMEPersonalizedLearning,
         contextMenuBuilder: widget.contextMenuBuilder,
         spellCheckConfiguration: widget.spellCheckConfiguration,
